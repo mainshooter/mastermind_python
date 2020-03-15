@@ -1,6 +1,14 @@
 {% extends "layout.html" %}
 
-{% block title %}Welkom{% endblock %}
-
+{% block title %}Welkom bij Mastermind{% endblock %}
 {% block content %}
+<p>Welkom bij mastermind wat is je naam?</p>
+<form method="post" action="/playername">
+  <div>
+    <label>Uw naam</label>
+    <input type="text" name="playerName">
+  </div>
+
+  <input type="submit">
+</form>
 {% endblock%}
