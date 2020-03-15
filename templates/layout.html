@@ -4,6 +4,14 @@
         {% block head %}
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+          .correct-answer {
+            border: solid 2px green;
+          }
+          .wrong-answer {
+            border: solid 2px red;
+          }
+        </style>
         <title>{% block title %}{% endblock %}</title>
         {% endblock %}
     </head>

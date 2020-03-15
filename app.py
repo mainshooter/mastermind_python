@@ -11,16 +11,42 @@ mastermind = Mastermind()
 def startUp():
     if 'name' in session:
         mastermind.playerName = session['playerName']
+        mastermind.solutionColors = session['solutionColors']
+        mastermind.gameFinisht = session['gameFinisht']
+        mastermind.playerAnswers = session['playerAnswers']
         mastermind.started = True
 
 @app.route('/')
-def hello_world():
+def index():
+    startUp()
+    if mastermind.canPlay() is True:
+        return redirect(url_for('playRound'))
     return render_template('welcome.html');
 
 @app.route('/playername', methods=['POST'])
 def playerName():
+    startUp()
     mastermind.playerName = request.form['playerName']
     mastermind.doubleColors = False
     mastermind.generate()
+    mastermind.started = True
     mastermind.save()
-    return render_template('welcome.html')
+    return redirect(url_for('playRound'))
+
+@app.route('/game', methods=['GET'])
+def playRound():
+    startUp()
+    if mastermind.canPlay() is False:
+        return redirect(url_for('index'))
+    return render_template('game.html', game=mastermind)
+
+@app.route('/game-post', methods=['POST'])
+def handleRound():
+    startUp()
+    givenAnswers = request.form.getlist('color[]')
+    mastermind.handleAnswers(givenAnswers)
+    mastermind.save()
+    if (mastermind.isFinisht == True):
+        return rneder_template('done.html')
+    else:
+        return redirect(url_for('playRound'))

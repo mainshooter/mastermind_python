@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}Speel een ronde{% endblock %}
+
+{% block content %}
+  <div>
+    <h1>Code</h1>
+    {% for code in game.solutionColors %}
+      <span>{{ code }}</span>
+    {% endfor %}
+  </div>
+  <div>
+    <h1>Gegeven antwoorden</h1>
+    {% for answers in game.playerAnswers %}
+      {% for answer in answers %}
+        {% if answer.isCorrect == True %}
+          <span class="correct-answer">{{ answer.answer }}</span>
+        {% else %}
+          <span class="wrong-answer">{{ answer.answer }}</span>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+  <form method="post" action="game-post">
+    <h1>Geef antwoord</h1>
+    <div>
+      {% for x in range(5) %}
+      <input type="number" name="color[]">
+      {% endfor %}
+    </div>
+    <input type="submit" name="Show it">
+  </form>
+
+{% endblock %}
