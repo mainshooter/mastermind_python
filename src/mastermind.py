@@ -31,9 +31,11 @@ class Mastermind:
 
     def answerIsInSolution(self, answerObject):
         for color in self.solutionColors:
-            if (answerObject.isCorrect == False and int(color) == int(answerObject.answer)):
+            if (int(color) == int(answerObject.answer)):
                 answerObject.inSolution = True
                 break
+            else:
+                answerObject.inSolution = False
         return answerObject
 
     def isFinisht(self):
@@ -99,7 +101,7 @@ class Mastermind:
     def saveToDb(self):
         db = Database()
         db.execute("INSERT INTO players (name, number_of_tries) VALUES (?, ?)", (self.playerName, self.numberOfTries))
-        pass
+        db.close()
 
 class Answer:
 
@@ -118,18 +120,11 @@ class Answer:
 class Database:
 
     def __init__(self):
-        self.db = sqlite3.connect('../database.db')
-        print(self.db)
+        self.db = sqlite3.connect('database.db')
 
     def execute(self, query, bindings):
-        curs = self.db.cursor()
-        if bindings:
-            curs.execute(query, bindings)
-        else:
-            curs.execute(query)
+        cur = self.db.cursor()
+        cur.execute(query, bindings)
 
-        while True:
-            row = curs.fetchone()
-            if not row:
-                return None
-            yield row
+    def close(self):
+        self.db.close()
