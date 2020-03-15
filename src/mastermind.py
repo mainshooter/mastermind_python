@@ -1,6 +1,8 @@
 from flask import session
 import random
 from var_dump import var_dump
+import sqlite3
+import os
 
 class Mastermind:
 
@@ -35,12 +37,12 @@ class Mastermind:
         return answerObject
 
     def isFinisht(self):
+        self.numberOfTries = self.numberOfTries + 1
         lastRoundIndex = len(self.playerAnswers) - 1
         givenAnswers = self.playerAnswers[lastRoundIndex];
         for answer in givenAnswers:
             if (answer.isCorrect == False):
                 self.gameFinisht = False
-                self.numberOfTries = self.numberOfTries + 1
                 return self.gameFinisht
         self.gameFinisht = True
         return self.gameFinisht
@@ -94,6 +96,11 @@ class Mastermind:
             returnResult.append(roundAnswers)
         return returnResult
 
+    def saveToDb(self):
+        db = Database()
+        db.execute("INSERT INTO players (name, number_of_tries) VALUES (?, ?)", (self.playerName, self.numberOfTries))
+        pass
+
 class Answer:
 
     def __init__(self):
@@ -107,3 +114,22 @@ class Answer:
             "isCorrect": self.isCorrect,
             "inSolution": self.inSolution,
         };
+
+class Database:
+
+    def __init__(self):
+        self.db = sqlite3.connect('../database.db')
+        print(self.db)
+
+    def execute(self, query, bindings):
+        curs = self.db.cursor()
+        if bindings:
+            curs.execute(query, bindings)
+        else:
+            curs.execute(query)
+
+        while True:
+            row = curs.fetchone()
+            if not row:
+                return None
+            yield row

@@ -47,7 +47,9 @@ def handleRound():
     mastermind.handleAnswers(givenAnswers)
     mastermind.isFinisht()
     mastermind.save()
-    if (mastermind.isFinisht() == True):
-        return render_template('done.html')
+    if (mastermind.gameFinisht == True):
+        mastermind.saveToDb()
+        session.clear()
+        return render_template('done.html', game=mastermind)
     else:
         return redirect(url_for('playRound'))
