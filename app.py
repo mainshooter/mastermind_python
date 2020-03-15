@@ -15,6 +15,7 @@ def startUp():
         mastermind.gameFinisht = session['gameFinisht']
         mastermind.playerAnswerJsonToObject(session['playerAnswers'])
         mastermind.started = True
+        mastermind.doubleColors = session['doubleColors']
 
 @app.route('/')
 def index():
@@ -27,7 +28,10 @@ def index():
 def playerName():
     startUp()
     mastermind.playerName = request.form['playerName']
-    mastermind.doubleColors = False
+    if 'doubleColors' in request.form:
+        mastermind.doubleColors = bool(request.form['doubleColors'])
+    else:
+        mastermind.doubleColors = False
     mastermind.generate()
     mastermind.started = True
     mastermind.save()

@@ -57,7 +57,7 @@ class Mastermind:
             while foundColor is False:
                 posibleColor = random.randint(1, 5)
                 for color in solutionColors:
-                    if (posibleColor == color):
+                    if (posibleColor == color and self.doubleColors == False):
                         foundColor = False
                         break
                     else:
@@ -75,6 +75,7 @@ class Mastermind:
         session['solutionColors'] = self.solutionColors
         session['gameFinisht'] = self.gameFinisht
         session['playerAnswers'] = self.playerAnswersToJson()
+        session['doubleColors'] = self.doubleColors
 
     def playerAnswerJsonToObject(self, playerAnswers):
         self.playerAnswers = []
@@ -107,7 +108,7 @@ class Answer:
     def __init__(self):
         self.answer = ""
         self.isCorrect = False
-        self.inSolution = True
+        self.inSolution = False
 
     def serialize(self):
         return {
@@ -142,6 +143,7 @@ class Database:
             if not row:
                 return None
             yield row
+        self.close()
 
     def close(self):
         self.db.close()
