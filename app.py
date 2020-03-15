@@ -45,8 +45,9 @@ def handleRound():
     startUp()
     givenAnswers = request.form.getlist('color[]')
     mastermind.handleAnswers(givenAnswers)
+    mastermind.isFinisht()
     mastermind.save()
-    if (mastermind.isFinisht == True):
-        return rneder_template('done.html')
+    if (mastermind.isFinisht() == True):
+        return render_template('done.html')
     else:
         return redirect(url_for('playRound'))

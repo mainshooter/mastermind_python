@@ -34,7 +34,7 @@ class Mastermind:
         return answerObject
 
     def isFinisht(self):
-        lastRoundIndex = len(self.playerAnswers)
+        lastRoundIndex = len(self.playerAnswers) - 1
         givenAnswers = self.playerAnswers[lastRoundIndex];
         for answer in givenAnswers:
             if (answer.isCorrect == False):
