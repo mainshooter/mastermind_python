@@ -1,5 +1,5 @@
 from flask import Flask, session, request, Response, g, redirect, url_for, abort, render_template, flash, make_response
-from src.mastermind import Mastermind
+from src.mastermind import Mastermind, Database
 from var_dump import var_dump
 
 app = Flask(__name__)
@@ -53,3 +53,10 @@ def handleRound():
         return render_template('done.html', game=mastermind)
     else:
         return redirect(url_for('playRound'))
+
+@app.route('/stats')
+def stats():
+    db = Database()
+    rows = db.query("SELECT * FROM players ORDER BY id DESC")
+    db.close()
+    return render_template("stats.html", rows=rows);

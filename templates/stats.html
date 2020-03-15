@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %} Statistieken {% endblock %}
+{% block content %}
+  <h1>Statistieken</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Naam</th>
+        <th>Datum</th>
+        <th>Pogingen</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+        <tr>
+          <td>{{ row['id'] }}</td>
+          <td>{{ row['name'] }}</td>
+          <td>{{ row['date'] }}</td>
+          <td>{{ row['number_of_tries'] }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

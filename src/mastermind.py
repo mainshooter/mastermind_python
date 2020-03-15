@@ -101,7 +101,6 @@ class Mastermind:
     def saveToDb(self):
         db = Database()
         db.execute("INSERT INTO players (name, number_of_tries) VALUES (?, ?)", (self.playerName, self.numberOfTries))
-        db.close()
 
 class Answer:
 
@@ -120,11 +119,29 @@ class Answer:
 class Database:
 
     def __init__(self):
+        self.openDb()
+
+    def openDb(self):
         self.db = sqlite3.connect('database.db')
 
     def execute(self, query, bindings):
+        self.openDb()
         cur = self.db.cursor()
         cur.execute(query, bindings)
+
+    def query(self, query, bindings=None):
+        self.openDb()
+        curs = self.db.cursor()
+        if bindings:
+            curs.execute(query, bindings)
+        else:
+            curs.execute(query)
+
+        while True:
+            row = curs.fetchone()
+            if not row:
+                return None
+            yield row
 
     def close(self):
         self.db.close()
