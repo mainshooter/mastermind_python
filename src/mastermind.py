@@ -11,6 +11,7 @@ class Mastermind:
         self.doubleColors = False
         self.solutionColors = []
         self.playerAnswers = []
+        self.numberOfTries = 0
 
     def handleAnswers(self, formAnswers):
         roundAnswers = []
@@ -39,6 +40,7 @@ class Mastermind:
         for answer in givenAnswers:
             if (answer.isCorrect == False):
                 self.gameFinisht = False
+                self.numberOfTries = self.numberOfTries + 1
                 return self.gameFinisht
         self.gameFinisht = True
         return self.gameFinisht
@@ -71,6 +73,7 @@ class Mastermind:
         session['playerAnswers'] = self.playerAnswersToJson()
 
     def playerAnswerJsonToObject(self, playerAnswers):
+        self.playerAnswers = []
         for round in playerAnswers:
             roundAnswers = []
             for answer in round:

@@ -1,1 +1,10 @@
-<h1>Klaar!</h1>
+{% extends "layout.html" %}
+
+{% block title %} Klaar! {% endblock %}
+
+{% block content %}
+
+  <h1>Goed gespeeld</h1>
+  <p>Je hebt het gehaald in {{ game.numberOfTries }}</p>
+
+{% endblock %}
