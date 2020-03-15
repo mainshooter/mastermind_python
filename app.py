@@ -9,18 +9,19 @@ app.secret_key = b'\x17\xc7#\x94\xfa&\xd5\xff\xec\x9f1\xb5\xe4\nv\xf7'
 mastermind = Mastermind()
 
 def startUp():
-    if 'name' in session:
+    if 'playerName' in session:
         mastermind.playerName = session['playerName']
         mastermind.solutionColors = session['solutionColors']
         mastermind.gameFinisht = session['gameFinisht']
-        mastermind.playerAnswers = session['playerAnswers']
+        mastermind.playerAnswers = mastermind.playerAnswerJsonToObject(session['playerAnswers'])
+        print(session['playerAnswers'])
         mastermind.started = True
 
 @app.route('/')
 def index():
     startUp()
-    if mastermind.canPlay() is True:
-        return redirect(url_for('playRound'))
+    # if mastermind.canPlay() is True:
+    #     # return redirect(url_for('playRound'))
     return render_template('welcome.html');
 
 @app.route('/playername', methods=['POST'])
@@ -38,6 +39,7 @@ def playRound():
     startUp()
     if mastermind.canPlay() is False:
         return redirect(url_for('index'))
+    print(mastermind.playerAnswers)
     return render_template('game.html', game=mastermind)
 
 @app.route('/game-post', methods=['POST'])

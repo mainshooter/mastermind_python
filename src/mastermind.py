@@ -14,7 +14,7 @@ class Mastermind:
 
     def handleAnswers(self, formAnswers):
         roundAnswers = []
-        for i in range(4):
+        for i in range(5):
             givenAnswer = formAnswers[i]
             answerObject = Answer()
             answerObject.answer = givenAnswer
@@ -68,7 +68,30 @@ class Mastermind:
         session['doubleColors'] = self.doubleColors
         session['solutionColors'] = self.solutionColors
         session['gameFinisht'] = self.gameFinisht
-        session['playerAnswers'] = self.playerAnswers
+        session['playerAnswers'] = self.playerAnswersToJson()
+
+    def playerAnswerJsonToObject(self, playerAnswers):
+        for round in playerAnswers:
+            roundAnswers = []
+            for answer in round:
+                print(answer)
+                answerObject = Answer()
+                answerObject.answer = answer["answer"]
+                answerObject.isCorrect = answer["isCorrect"]
+                answerObject.inSolution = answer["inSolution"]
+                roundAnswers.append(answerObject)
+            self.playerAnswers.append(roundAnswers)
+        return self.playerAnswers
+
+
+    def playerAnswersToJson(self):
+        returnResult = []
+        for round in self.playerAnswers:
+            roundAnswers = []
+            for answer in round:
+                roundAnswers.append(answer.serialize())
+            returnResult.append(roundAnswers)
+        return returnResult
 
 class Answer:
 
@@ -76,3 +99,10 @@ class Answer:
         self.answer = ""
         self.isCorrect = False
         self.inSolution = True
+
+    def serialize(self):
+        return {
+            "answer": self.answer,
+            "isCorrect": self.isCorrect,
+            "inSolution": self.inSolution,
+        };
