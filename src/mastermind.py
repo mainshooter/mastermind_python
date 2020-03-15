@@ -18,7 +18,7 @@ class Mastermind:
             givenAnswer = formAnswers[i]
             answerObject = Answer()
             answerObject.answer = givenAnswer
-            if givenAnswer == self.solutionColors[i]:
+            if int(givenAnswer) == int(self.solutionColors[i]):
                 answerObject.isCorrect = True
             else:
                 answerObject.isCorrect = False
@@ -28,7 +28,7 @@ class Mastermind:
 
     def answerIsInSolution(self, answerObject):
         for color in self.solutionColors:
-            if (answerObject.isCorrect == False and color == answerObject.answer):
+            if (answerObject.isCorrect == False and int(color) == int(answerObject.answer)):
                 answerObject.inSolution = True
                 break
         return answerObject
@@ -74,15 +74,13 @@ class Mastermind:
         for round in playerAnswers:
             roundAnswers = []
             for answer in round:
-                print(answer)
                 answerObject = Answer()
                 answerObject.answer = answer["answer"]
                 answerObject.isCorrect = answer["isCorrect"]
                 answerObject.inSolution = answer["inSolution"]
                 roundAnswers.append(answerObject)
             self.playerAnswers.append(roundAnswers)
-        return self.playerAnswers
-
+        pass
 
     def playerAnswersToJson(self):
         returnResult = []

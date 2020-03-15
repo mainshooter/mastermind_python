@@ -13,15 +13,14 @@ def startUp():
         mastermind.playerName = session['playerName']
         mastermind.solutionColors = session['solutionColors']
         mastermind.gameFinisht = session['gameFinisht']
-        mastermind.playerAnswers = mastermind.playerAnswerJsonToObject(session['playerAnswers'])
-        print(session['playerAnswers'])
+        mastermind.playerAnswerJsonToObject(session['playerAnswers'])
         mastermind.started = True
 
 @app.route('/')
 def index():
     startUp()
-    # if mastermind.canPlay() is True:
-    #     # return redirect(url_for('playRound'))
+    if mastermind.canPlay() is True:
+        return redirect(url_for('playRound'))
     return render_template('welcome.html');
 
 @app.route('/playername', methods=['POST'])
@@ -39,7 +38,6 @@ def playRound():
     startUp()
     if mastermind.canPlay() is False:
         return redirect(url_for('index'))
-    print(mastermind.playerAnswers)
     return render_template('game.html', game=mastermind)
 
 @app.route('/game-post', methods=['POST'])
