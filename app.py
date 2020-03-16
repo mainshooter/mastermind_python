@@ -62,5 +62,9 @@ def handleRound():
 def stats():
     db = Database()
     rows = db.query("SELECT * FROM players ORDER BY id DESC")
+    result = []
+    for row in rows:
+        result.append(row);
     db.close()
-    return render_template("stats.html", rows=rows);
+    print(result)
+    return render_template("stats.html", data=result);

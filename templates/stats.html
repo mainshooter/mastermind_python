@@ -13,12 +13,11 @@
       </tr>
     </thead>
     <tbody>
-      {% for row in rows %}
+      {% for row in data %}
         <tr>
-          <td>{{ row['id'] }}</td>
-          <td>{{ row['name'] }}</td>
-          <td>{{ row['date'] }}</td>
-          <td>{{ row['number_of_tries'] }}</td>
+          {% for column in row %}
+            <td>{{ column }}</td>
+          {% endfor %}
         </tr>
       {% endfor %}
     </tbody>
