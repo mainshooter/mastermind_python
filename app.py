@@ -15,7 +15,8 @@ def startUp():
         mastermind.gameFinisht = session['gameFinisht']
         mastermind.playerAnswerJsonToObject(session['playerAnswers'])
         mastermind.started = True
-        mastermind.doubleColors = session['doubleColors']
+        if 'doubleColors' in session:
+            mastermind.doubleColors = session['doubleColors']
 
 @app.route('/')
 def index():
@@ -48,12 +49,16 @@ def playRound():
 def handleRound():
     startUp()
     givenAnswers = request.form.getlist('color[]')
+    if '' in givenAnswers[:1]:
+        return redirect(url_for('playRound'))
     mastermind.handleAnswers(givenAnswers)
     mastermind.isFinisht()
     mastermind.save()
     if (mastermind.gameFinisht == True):
         mastermind.saveToDb()
-        session.clear()
+        session.clear();
+        for key in session:
+            print(session)
         return render_template('done.html', game=mastermind)
     else:
         return redirect(url_for('playRound'))
