@@ -43,7 +43,10 @@ def playRound():
     startUp()
     if mastermind.canPlay() is False:
         return redirect(url_for('index'))
-    return render_template('game.html', game=mastermind)
+    if 'playerName' in session:
+        return render_template('game.html', game=mastermind)
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/game-post', methods=['POST'])
 def handleRound():
@@ -57,11 +60,17 @@ def handleRound():
     if (mastermind.gameFinisht == True):
         mastermind.saveToDb()
         session.clear();
-        for key in session:
-            print(session)
-        return render_template('done.html', game=mastermind)
+        session['tries'] = mastermind.numberOfTries;
+        return redirect(url_for('gameResult'))
     else:
         return redirect(url_for('playRound'))
+
+@app.route('/game-result')
+def gameResult():
+    if 'tries' in session:
+        return render_template('done.html', tries=session['tries'])
+    else:
+        return redirect(url_for('index'))
 
 @app.route('/stats')
 def stats():
