@@ -101,7 +101,7 @@ class Mastermind:
 
     def saveToDb(self):
         db = Database()
-        db.execute("INSERT INTO players (name, number_of_tries) VALUES (?, ?)", (self.playerName, self.numberOfTries))
+        db.execute("INSERT INTO players (name, number_of_tries, `date`) VALUES (?, ?, DATE('now'))", (self.playerName, self.numberOfTries))
 
 class Answer:
 
@@ -129,6 +129,8 @@ class Database:
         self.openDb()
         cur = self.db.cursor()
         cur.execute(query, bindings)
+        self.db.commit()
+        self.close();
 
     def query(self, query, bindings=None):
         self.openDb()

@@ -80,5 +80,4 @@ def stats():
     for row in rows:
         result.append(row);
     db.close()
-    print(result)
     return render_template("stats.html", data=result);
