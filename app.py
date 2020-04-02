@@ -21,7 +21,7 @@ def startUp():
 @app.route('/')
 def index():
     startUp()
-    if mastermind.canPlay() is True:
+    if 'playerName' in session:
         return redirect(url_for('playRound'))
     return render_template('welcome.html');
 
