@@ -16,7 +16,8 @@ def startUp():
         mastermind.gameFinisht = session['gameFinisht']
         mastermind.playerAnswerJsonToObject(session['playerAnswers'])
         mastermind.started = True
-        mastermind.amountOfPositions = session['amountOfPositions'];
+        mastermind.amountOfPositions = session['amountOfPositions']
+        mastermind.numberOfTries = int(session['numberOfTries'])
         if 'doubleColors' in session:
             mastermind.doubleColors = session['doubleColors']
     else:

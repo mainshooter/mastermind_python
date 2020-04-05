@@ -100,6 +100,7 @@ class Mastermind:
         session['playerAnswers'] = self.playerAnswersToJson()
         session['doubleColors'] = self.doubleColors
         session['amountOfPositions'] = self.amountOfPositions
+        session['numberOfTries'] = self.numberOfTries
 
     def playerAnswerJsonToObject(self, playerAnswers):
         self.playerAnswers = []
