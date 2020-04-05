@@ -9,7 +9,8 @@ app.secret_key = b'\x17\xc7#\x94\xfa&\xd5\xff\xec\x9f1\xb5\xe4\nv\xf7'
 mastermind = Mastermind()
 
 def startUp():
-    if 'playerName' in session:
+    global mastermind
+    if 'playerName' in session and mastermind != None:
         mastermind.playerName = session['playerName']
         mastermind.solutionColors = session['solutionColors']
         mastermind.gameFinisht = session['gameFinisht']
@@ -18,6 +19,8 @@ def startUp():
         mastermind.amountOfPositions = session['amountOfPositions'];
         if 'doubleColors' in session:
             mastermind.doubleColors = session['doubleColors']
+    else:
+        mastermind = None
 
 @app.route('/')
 def index():
@@ -28,7 +31,9 @@ def index():
 
 @app.route('/playername', methods=['POST'])
 def playerName():
+    global mastermind
     startUp()
+    mastermind = Mastermind()
     mastermind.playerName = request.form['playerName']
     mastermind.amountOfColors = int(request.form['amountOfColors'])
     mastermind.amountOfPositions = int(request.form['amountOfPositions']) - 1
@@ -53,6 +58,7 @@ def playerName():
 
 @app.route('/game', methods=['GET'])
 def playRound():
+    global mastermind
     startUp()
     if mastermind.canPlay() is False:
         return redirect(url_for('index'))
@@ -63,6 +69,7 @@ def playRound():
 
 @app.route('/game-post', methods=['POST'])
 def handleRound():
+    global mastermind
     startUp()
     givenAnswers = request.form.getlist('color[]')
     if '' in givenAnswers[:1]:
