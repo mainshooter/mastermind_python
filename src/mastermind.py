@@ -25,15 +25,19 @@ class Mastermind:
             givenAnswer = int(formAnswers[i])
             answerObject = Answer()
             answerObject.answer = givenAnswer
+            roundAnswers.append(answerObject)
+
+        for i in range(self.amountOfPositions):
+            answerObject = roundAnswers[i]
             if answerObject.answer == self.solutionColors[i]:
                 answerObject.isCorrect = True
             else:
                 answerObject.isCorrect = False
-                answerObject = self.answerIsInSolution(answerObject)
-            roundAnswers.append(answerObject)
+                answerObject = self.answerIsInSolution(answerObject, roundAnswers)
+        roundAnswers = self.answerColorIsCorrectEverywhere(roundAnswers)
         self.playerAnswers.append(roundAnswers)
 
-    def answerIsInSolution(self, answerObject):
+    def answerIsInSolution(self, answerObject, roundAnswers):
         for color in self.solutionColors:
             if (color == answerObject.answer):
                 answerObject.inSolution = True
@@ -41,6 +45,21 @@ class Mastermind:
             else:
                 answerObject.inSolution = False
         return answerObject
+
+    def answerColorIsCorrectEverywhere(self, roundAnswers):
+        for i in range(0, len(self.solutionColors)):
+            answerObject = roundAnswers[i]
+            if answerObject.isCorrect == True:
+                continue
+            solutionContainingThisColor = self.solutionColors.count(answerObject.answer)
+            correctPlacedAnswers = 0
+            for j in range(0, len(self.solutionColors)):
+                solutionColor = self.solutionColors[j]
+                if (solutionColor == answerObject.answer and roundAnswers[j].answer == solutionColor):
+                    correctPlacedAnswers = correctPlacedAnswers + 1
+            if solutionContainingThisColor == correctPlacedAnswers:
+                answerObject.inSolution = False
+        return roundAnswers
 
     def isFinisht(self):
         self.numberOfTries = self.numberOfTries + 1
