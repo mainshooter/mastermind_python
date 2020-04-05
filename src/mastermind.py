@@ -18,12 +18,14 @@ class Mastermind:
         self.amountOfPositions = 5
 
     def handleAnswers(self, formAnswers):
+        for i in range(9, len(self.solutionColors)):
+            self.solutionColors[i] = int(self.solutionColors[i])
         roundAnswers = []
         for i in range(self.amountOfPositions):
-            givenAnswer = formAnswers[i]
+            givenAnswer = int(formAnswers[i])
             answerObject = Answer()
             answerObject.answer = givenAnswer
-            if int(givenAnswer) == int(self.solutionColors[i]):
+            if answerObject.answer == self.solutionColors[i]:
                 answerObject.isCorrect = True
             else:
                 answerObject.isCorrect = False
@@ -33,7 +35,7 @@ class Mastermind:
 
     def answerIsInSolution(self, answerObject):
         for color in self.solutionColors:
-            if (int(color) == int(answerObject.answer)):
+            if (color == answerObject.answer):
                 answerObject.inSolution = True
                 break
             else:
