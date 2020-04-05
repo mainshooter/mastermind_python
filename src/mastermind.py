@@ -47,18 +47,22 @@ class Mastermind:
         return answerObject
 
     def answerColorIsCorrectEverywhere(self, roundAnswers):
+        foundFromSolution = []
         for i in range(0, len(self.solutionColors)):
+            print("-----------------")
             answerObject = roundAnswers[i]
+            print("Value {}".format(answerObject.answer))
             if answerObject.isCorrect == True:
                 continue
-            solutionContainingThisColor = self.solutionColors.count(answerObject.answer)
-            correctPlacedAnswers = 0
-            for j in range(0, len(self.solutionColors)):
-                solutionColor = self.solutionColors[j]
-                if (solutionColor == answerObject.answer and roundAnswers[j].answer == solutionColor):
-                    correctPlacedAnswers = correctPlacedAnswers + 1
-            if solutionContainingThisColor == correctPlacedAnswers:
+
+            alreadyHadSoMany = foundFromSolution.count(answerObject.answer)
+            amountOfAnswerInSolution = self.solutionColors.count(answerObject.answer)
+
+            if alreadyHadSoMany < amountOfAnswerInSolution:
+                pass
+            else:
                 answerObject.inSolution = False
+            foundFromSolution.append(answerObject.answer)
         return roundAnswers
 
     def isFinisht(self):
