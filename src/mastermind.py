@@ -18,7 +18,7 @@ class Mastermind:
         self.amountOfPositions = 5
 
     def handleAnswers(self, formAnswers):
-        for i in range(9, len(self.solutionColors)):
+        for i in range(0, len(self.solutionColors)):
             self.solutionColors[i] = int(self.solutionColors[i])
         roundAnswers = []
         for i in range(self.amountOfPositions):
@@ -56,7 +56,7 @@ class Mastermind:
 
     def generate(self):
         solutionColors = []
-        for x in range(self.amountOfPositions):
+        for x in range(0, self.amountOfPositions):
             foundColor = False
             while foundColor is False:
                 posibleColor = random.randint(1, self.amountOfColors)
@@ -68,6 +68,7 @@ class Mastermind:
                         foundColor = True
                 if foundColor is True or len(solutionColors) == 0:
                     solutionColors.append(posibleColor)
+                    break
         self.solutionColors = solutionColors
 
     def canPlay(self):

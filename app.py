@@ -35,12 +35,12 @@ def playerName():
     startUp()
     mastermind = Mastermind()
     mastermind.playerName = request.form['playerName']
-    mastermind.amountOfColors = int(request.form['amountOfColors'])
-    mastermind.amountOfPositions = int(request.form['amountOfPositions']) - 1
+    mastermind.amountOfColors = int(request.form['amountOfColors']) + 1
+    mastermind.amountOfPositions = int(request.form['amountOfPositions'])
 
-    if mastermind.amountOfColors < 6 or mastermind.amountOfColors > 10:
+    if mastermind.amountOfColors < 7 or mastermind.amountOfColors > 11:
         return redirect(url_for('index'))
-    if mastermind.amountOfPositions < 5 or mastermind.amountOfPositions > 10:
+    if mastermind.amountOfPositions < 6 or mastermind.amountOfPositions > 10:
         return redirect(url_for('index'))
 
     if 'doubleColors' in request.form:
@@ -60,7 +60,7 @@ def playerName():
 def playRound():
     global mastermind
     startUp()
-    if mastermind.canPlay() is False:
+    if mastermind == None or mastermind.canPlay() is False:
         return redirect(url_for('index'))
     if 'playerName' in session:
         return render_template('game.html', game=mastermind)
