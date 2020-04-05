@@ -27,7 +27,7 @@
   <form method="post" class="form" action="game-post">
     <h1>Geef antwoord</h1>
     <div class="form-group row">
-      {% for x in range(5) %}
+      {% for x in game.solutionColors %}
       <input type="number" name="color[]" class="form-control col" min="1" max="9" required>
       {% endfor %}
     </div>

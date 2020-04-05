@@ -6,11 +6,19 @@
 <form method="post" class="form" action="/playername">
   <div class="form-group">
     <label>Uw naam</label>
-    <input type="text" class="form-control" name="playerName">
+    <input type="text" class="form-control" name="playerName" required>
   </div>
   <div class="form-group">
     <label>Dubbele kleuren?</label>
     <input class="form-control" type="checkbox" name="doubleColors">
+  </div>
+  <div class="form-group">
+    <label>Aantal kleuren 6 t/m 10</label>
+    <input type="number" min="6" max="10" class="form-control" name="amountOfColors" required>
+  </div>
+  <div class="form-group">
+    <label>Aantal posities 6 t/m 10</label>
+    <input type="number" name="amountOfPositions" min="6" max="10" class="form-control" required>
   </div>
 
   <input class="btn btn-primary" type="submit">

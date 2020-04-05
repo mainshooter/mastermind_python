@@ -29,6 +29,14 @@ def index():
 def playerName():
     startUp()
     mastermind.playerName = request.form['playerName']
+    mastermind.amountOfColors = int(request.form['amountOfColors'])
+    mastermind.amountOfPositions = int(request.form['amountOfPositions']) - 1
+
+    if mastermind.amountOfColors < 6 or mastermind.amountOfColors > 10:
+        return redirect(url_for('index'))
+    if mastermind.amountOfPositions < 6 or mastermind.amountOfPositions > 10:
+        return redirect(url_for('index'))
+
     if 'doubleColors' in request.form:
         mastermind.doubleColors = bool(request.form['doubleColors'])
     else:

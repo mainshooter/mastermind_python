@@ -14,10 +14,12 @@ class Mastermind:
         self.solutionColors = []
         self.playerAnswers = []
         self.numberOfTries = 0
+        self.amountOfColors = 6
+        self.amountOfPositions = 5
 
     def handleAnswers(self, formAnswers):
         roundAnswers = []
-        for i in range(5):
+        for i in range(self.amountOfPositions):
             givenAnswer = formAnswers[i]
             answerObject = Answer()
             answerObject.answer = givenAnswer
@@ -52,10 +54,10 @@ class Mastermind:
 
     def generate(self):
         solutionColors = []
-        for x in range(4):
+        for x in range(self.amountOfPositions):
             foundColor = False
             while foundColor is False:
-                posibleColor = random.randint(1, 5)
+                posibleColor = random.randint(1, self.amountOfColors)
                 for color in solutionColors:
                     if (posibleColor == color and self.doubleColors == False):
                         foundColor = False
