@@ -33,18 +33,8 @@ class Mastermind:
                 answerObject.isCorrect = True
             else:
                 answerObject.isCorrect = False
-                answerObject = self.answerIsInSolution(answerObject, roundAnswers)
         roundAnswers = self.answerColorIsCorrectEverywhere(roundAnswers)
         self.playerAnswers.append(roundAnswers)
-
-    def answerIsInSolution(self, answerObject, roundAnswers):
-        for color in self.solutionColors:
-            if (color == answerObject.answer):
-                answerObject.inSolution = True
-                break
-            else:
-                answerObject.inSolution = False
-        return answerObject
 
     def answerColorIsCorrectEverywhere(self, roundAnswers):
         solutionAnswers = self.solutionColors.copy()
@@ -62,8 +52,8 @@ class Mastermind:
 
             alreadyHadSoMany = foundFromSolution.count(answerObject.answer)
             amountOfAnswerInSolution = solutionAnswers.count(answerObject.answer)
-            if alreadyHadSoMany <= amountOfAnswerInSolution and amountOfAnswerInSolution > 0:
-                pass
+            if alreadyHadSoMany < amountOfAnswerInSolution and amountOfAnswerInSolution > 0:
+                answerObject.inSolution = True
             else:
                 answerObject.inSolution = False
             foundFromSolution.append(answerObject.answer)
