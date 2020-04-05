@@ -15,6 +15,7 @@ def startUp():
         mastermind.gameFinisht = session['gameFinisht']
         mastermind.playerAnswerJsonToObject(session['playerAnswers'])
         mastermind.started = True
+        mastermind.amountOfPositions = session['amountOfPositions'];
         if 'doubleColors' in session:
             mastermind.doubleColors = session['doubleColors']
 
@@ -34,13 +35,17 @@ def playerName():
 
     if mastermind.amountOfColors < 6 or mastermind.amountOfColors > 10:
         return redirect(url_for('index'))
-    if mastermind.amountOfPositions < 6 or mastermind.amountOfPositions > 10:
+    if mastermind.amountOfPositions < 5 or mastermind.amountOfPositions > 10:
         return redirect(url_for('index'))
 
     if 'doubleColors' in request.form:
         mastermind.doubleColors = bool(request.form['doubleColors'])
     else:
         mastermind.doubleColors = False
+
+    if (mastermind.doubleColors == False and mastermind.amountOfColors < mastermind.amountOfPositions):
+        return redirect(url_for('index'))
+
     mastermind.generate()
     mastermind.started = True
     mastermind.save()
